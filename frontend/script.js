@@ -1,15 +1,13 @@
 
 function getTodos() {
-    fetch('https://jsonplaceholder.typicode.com/todos')
+    fetch('http://localhost:3000/todos')
       .then(response => response.json())
       .then(json => loadTodos(json))
 }
 
-getTodos()
-
-
 function loadTodos(todos){
     console.log(todos);
+
     for (let i = 0; i < todos.length; i++) {
         // console.log(todos[i].title);
         taskToHtml(todos[i]);
@@ -18,7 +16,10 @@ function loadTodos(todos){
 
 function taskToHtml(todo){
 
+    console.log(todo)
+
     let taskContent = todo.title;
+    let taskCompleted = todo.completed;
 
     // listenelement erzeugen
     let listItem = document.createElement('li');
@@ -26,10 +27,15 @@ function taskToHtml(todo){
     // checkbox erzeugen
     let checkbox = document.createElement('input');
     checkbox.type = 'checkbox'
+    if (taskCompleted === true) {
+        checkbox.checked = true
+    } else {
+        checkbox.checked = false
+    }
 
     // Todo text
     let taskText = document.createElement('span')
-    taskText.textContent = taskContent + '   '
+    taskText.textContent = taskContent + '   ' //böse
 
     // button erzeugen
     let delButton = document.createElement('button');
@@ -79,3 +85,7 @@ function addTask() {
 document.getElementById('add-task').addEventListener("click", addTask);
 
 
+
+// main
+
+getTodos()
