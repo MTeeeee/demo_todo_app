@@ -22,6 +22,8 @@ app.get('/todos', async (req, res) => {
     }
 });
 
+
+
 app.listen(PORT, async () => {
     // await initializeTodosFile();
     console.log(`Server is running on http://localhost:${PORT}`);
