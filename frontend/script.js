@@ -53,33 +53,27 @@ function taskToHtml(todo){
 
 
 function addTask() {
+
     let taskContent = document.getElementById('userInput').value;
-    console.log(taskContent)
-
-    // listenelement erzeugen
-    let listItem = document.createElement('li');
-
-    // checkbox erzeugen
-    let checkbox = document.createElement('input');
-    checkbox.type = 'checkbox'
-
-    // Todo text
-    let taskText = document.createElement('span')
-    taskText.textContent = taskContent + '   '
-
-    // button erzeugen
-    let delButton = document.createElement('button');
-    delButton.textContent = "Delete Task";
-
-    // listenelement ergänzen
-    listItem.appendChild(checkbox);
-    listItem.appendChild(taskText);
-    listItem.appendChild(delButton);
-
-    // listenelement in die html liste hinzufügen
-    document.getElementById('task-list').appendChild(listItem);
-
     document.getElementById('userInput').value = '';
+
+    const fetchConfig = {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+            "userId": 1,
+            "id": 1,
+            "title": taskContent,
+            "completed": false
+        })
+    }
+
+    fetch('http://localhost:3000/todos', fetchConfig)
+    .then(response => response.json())
+    .then(json => loadTodos(json))
+
 };
 
 document.getElementById('add-task').addEventListener("click", addTask);

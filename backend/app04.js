@@ -30,6 +30,7 @@ const PORT = 3000;
 server.get("/", (req, res) => {
     console.log("ich bekomme einen get");
     res.status(200).json(todos);
+    
 })
 
 
