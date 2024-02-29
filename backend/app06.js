@@ -1,6 +1,5 @@
 console.log("Server Online");
 
-
 // Module werden geladen:
 const express = require("express");
 const cors = require("cors");
@@ -57,8 +56,6 @@ server.post("/todos", (req, res) => {
       });
     });
 });
-
-
 
 server.listen(PORT, () => {
     console.log(`Example app listening on port ${PORT}`)

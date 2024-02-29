@@ -1,11 +1,11 @@
 
 function getTodos() {
     fetch('http://localhost:3000/todos')
-      .then(response => response.json())
-      .then(json => loadTodos(json))
+        .then(response => response.json())
+        .then(json => loadTodos(json))
 }
 
-function loadTodos(todos){
+function loadTodos(todos) {
     console.log(todos);
 
     for (let i = 0; i < todos.length; i++) {
@@ -14,7 +14,7 @@ function loadTodos(todos){
     }
 }
 
-function taskToHtml(todo){
+function taskToHtml(todo) {
 
     console.log(todo)
 
@@ -71,13 +71,39 @@ function addTask() {
     }
 
     fetch('http://localhost:3000/todos', fetchConfig)
-    .then(response => response.json())
-    .then(json => loadTodos(json))
-
+        .then(response => response.json())
+        .then(json => loadTodos(json))
 };
 
-document.getElementById('add-task').addEventListener("click", addTask);
 
+// User Registrieren
+function registerUser() {
+    console.log("Register User")
+    const username = document.getElementById("registerUserName").value;
+    const password = document.getElementById("registerUserPassword").value;
+
+    // Todo leeres Feld abfangen
+
+    const fetchConfig = {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+            "userName": username,
+            "userPassword": password
+        })
+    }
+
+    fetch('http://localhost:3000/register', fetchConfig)
+    .then(response => response.json())
+    .then(json => console.log(json))
+};
+
+
+
+document.getElementById('add-task').addEventListener("click", addTask);
+document.getElementById('userRegisterClick').addEventListener("click", registerUser);
 
 
 // main
