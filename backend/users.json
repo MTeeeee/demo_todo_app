@@ -3,6 +3,8 @@
     "userName": "tony stark",
     "userPassword": "jarvis"
   },
-  "sdad",
-  "sadasd"
+  {
+    "userName": "asdf",
+    "userPassword": "$2b$10$6x3D6T6tOlRs/GMnabx6xOvt1VvIHDIe0gKFBpzeLUdlxIc.wDrRy"
+  }
 ]

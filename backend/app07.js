@@ -66,11 +66,14 @@ server.post("/register", async(req, res) => {
     // Gibt den Inhalt des Request-Bodys in der Konsole aus. Dies sollte das neue Todo-Element sein.
     console.log(req.body);
     // Speichert den Request-Body (das neue Todo-Element) in einer Variablen.
-    let newUser = req.body.userName;
+
+    let userName = req.body.userName;
     let userPassword = req.body.userPassword;
 
     let hashedPassword = await bcrypt.hash(userPassword, 10)
     console.log(hashedPassword)
+
+    const newUser = { userName, userPassword: hashedPassword };
 
     // Liest die bestehende Todo-Liste aus der Datei "todos.json".
     fs.readFile("./users.json", "utf-8", (err, data) => {

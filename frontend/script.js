@@ -100,7 +100,29 @@ function registerUser() {
     .then(json => console.log(json))
 };
 
+// User Login
+function loginUser() {
+    console.log("Login User")
+    const username = document.getElementById("registerUserName").value;
+    const password = document.getElementById("registerUserPassword").value;
 
+    // Todo leeres Feld abfangen
+
+    const fetchConfig = {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+            "userName": username,
+            "userPassword": password
+        })
+    }
+
+    fetch('http://localhost:3000/register', fetchConfig)
+    .then(response => response.json())
+    .then(json => console.log(json))
+};
 
 document.getElementById('add-task').addEventListener("click", addTask);
 document.getElementById('userRegisterClick').addEventListener("click", registerUser);
