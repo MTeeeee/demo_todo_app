@@ -6,5 +6,21 @@
   {
     "userName": "asdf",
     "userPassword": "$2b$10$6x3D6T6tOlRs/GMnabx6xOvt1VvIHDIe0gKFBpzeLUdlxIc.wDrRy"
+  },
+  {
+    "userName": "admin",
+    "userPassword": "$2b$10$c.iy/BJZuB7wWxoU6NMtfOqxDSu7Ujoz0Z58VRt6RpgcVXobawR4G"
+  },
+  {
+    "userName": "a",
+    "userPassword": "$2b$10$aHapyM2yxGN.yVxAqcXGUO6Yj3ZWJ1vmNHVBw0oS0rPWelW/Vop0O"
+  },
+  {
+    "userName": "b",
+    "userPassword": "$2b$10$xihmF5mCttsg4PX/RSnr0uyBH4Q/viRreOTmqjqSkBXiGgVY3PHb."
+  },
+  {
+    "userName": "c",
+    "userPassword": "$2b$10$ZIOkuZBtoDsTESDJJyFB3.ACqmJzbPo6oiIV1L0NNtF3HxcEU7l0m"
   }
 ]

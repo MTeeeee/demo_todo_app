@@ -5,6 +5,7 @@ const express = require("express");
 const cors = require("cors");
 const fs = require("fs")
 const bcrypt = require("bcrypt")
+const jwt = require("jsonwebtoken")
 
 // Server wird erstellt und Port festgelegt
 const server = express();
@@ -24,14 +25,14 @@ server.get("/todos", (req, res) => {
     // Da die Todos in einer json Datei sind müssen wir gebrauch vom fs Modul machen um so diese Datei auszulesen.
     fs.readFile("./todos.json", "utf-8", (err, data) => {
         // Sollte es einen Fehler beim auslesen geben, wird ein Error zurückgesendet.
-        if (err) res.status(500).json({error: 'Datei konnte nicht gelesen werden'});
+        if (err) res.status(500).json({ error: 'Datei konnte nicht gelesen werden' });
         // Die json Datei wird zunächst in data geladen.
         // Damit wir sie mit Javascript Befehlen bearbeiten können müssen wir sie parsen.
         // Also aus einer Datei eine Object Variable machen.
         let todos = JSON.parse(data);
         // Dannach können wir alles als Response ans Frontend zurückschicken.
         res.status(200).json(todos);
-      });
+    });
 })
 
 // Definiert eine neue Route für den POST-Request auf den Pfad "/todos".
@@ -53,14 +54,14 @@ server.post("/todos", (req, res) => {
         // Schreibt die aktualisierte Todo-Liste zurück in die Datei "todos.json".
         fs.writeFile("./todos.json", JSON.stringify(todos, null, 2), () => {
             // Sendet eine Antwort mit dem Statuscode 200 (OK) zurück und gibt ein Erfolgsmeldung im JSON-Format zurück.
-            res.status(200).json({success: 'Todo wurde abgespeichert'});
-      });
+            res.status(200).json({ success: 'Todo wurde abgespeichert' });
+        });
     });
 });
 
 
 // Definiert eine neue Route für den POST-Request".
-server.post("/register", async(req, res) => {
+server.post("/register", async (req, res) => {
     console.log("register new user");
     console.log(req.body);
 
@@ -78,12 +79,12 @@ server.post("/register", async(req, res) => {
         users.push(newUser);
         // Schreibt
         fs.writeFile("./users.json", JSON.stringify(users, null, 2), () => {
-            res.status(200).json({success: 'User wurde registriert'});
-      });
+            res.status(200).json({ success: 'User wurde registriert' });
+        });
     });
 });
 
-server.post("/login", async(req, res) => {
+server.post("/login", async (req, res) => {
     console.log("login user");
     console.log(req.body);
 
@@ -99,20 +100,23 @@ server.post("/login", async(req, res) => {
         const user = usersDb.find(usr => usr.userName == userName);
         console.log(user)
         if (user !== undefined) {
-            bcrypt.compare(userPassword, user.userPassword, function(err, result) {
+            bcrypt.compare(userPassword, user.userPassword, function (err, result) {
                 if (result) {
-                    res.status(200).json({status: "Login Erfolgreich"})
+
+                    const token = jwt.sign(user, "123456");
+                    res.status(200).json({
+                        status: "Login Erfolgreich",
+                        sessionToken: token
+                    })
                 } else {
-                    res.status(404).json({status: "Password incorrect"})
+                    res.status(404).json({ status: "Password incorrect" })
                 }
             })
         } else {
-            res.status(404).json({status: "User Nonexistent"})
+            res.status(404).json({ status: "User Nonexistent" })
         }
     });
 });
-
-
 
 
 server.listen(PORT, () => {

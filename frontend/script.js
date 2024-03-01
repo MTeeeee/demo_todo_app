@@ -103,8 +103,8 @@ function registerUser() {
 // User Login
 function loginUser() {
     console.log("Login User")
-    const username = document.getElementById("registerUserName").value;
-    const password = document.getElementById("registerUserPassword").value;
+    const username = document.getElementById("loginUserName").value;
+    const password = document.getElementById("loginUserPassword").value;
 
     // Todo leeres Feld abfangen
 
@@ -119,13 +119,18 @@ function loginUser() {
         })
     }
 
-    fetch('http://localhost:3000/register', fetchConfig)
+    fetch('http://localhost:3000/login', fetchConfig)
     .then(response => response.json())
-    .then(json => console.log(json))
+    .then(json => setSessionToken(json))
+
+    function setSessionToken(resJson) {
+        sessionStorage.setItem("sessionToken", resJson.sessionToken)
+    }
 };
 
 document.getElementById('add-task').addEventListener("click", addTask);
 document.getElementById('userRegisterClick').addEventListener("click", registerUser);
+document.getElementById('userLoginClick').addEventListener("click", loginUser);
 
 
 // main
