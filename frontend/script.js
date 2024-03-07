@@ -18,7 +18,7 @@ function taskToHtml(todo) {
 
     console.log(todo)
 
-    let taskContent = todo.title;
+    let taskContent = todo.description;
     let taskCompleted = todo.completed;
 
     // listenelement erzeugen
