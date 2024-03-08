@@ -7,17 +7,19 @@ const fs = require("fs");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const { Client } = require("pg");
+const env = require("dotenv");
+
+env.config();
 
 // Server wird erstellt und Port festgelegt
 const server = express();
 const PORT = 3000;
 
 // Datenbank Verbindung
-
 const db = new Client({
-    user: "postgres",
+    user: process.env.DB_USER,
     database: "todo_app_db",
-    password: "",
+    password: process.env.DB_PASSWORD,
     port: "5432",
     host: "localhost",
 });
@@ -30,6 +32,13 @@ async function getTodos() {
     return res.rows
 }
 
+async function postTodo(data) {
+    const text = 'INSERT INTO todos(user_id, description, completed) VALUES($1, $2, $3) RETURNING *'
+    const values = [data.user_id, data.description, data.completed]
+    const res = await db.query(text, values)
+    return res.rows
+}
+
 //Middleware,
 server.use(express.json());
 server.use(cors());
@@ -38,33 +47,13 @@ server.use(cors());
 
 // Dies ist die get Schnittstelle von der das Frontend alle aktuellen Todos bekommen soll
 server.get("/todos", async(req, res) => {
-    console.log("ich bekomme einen get");
-    let todos = await getTodos()
-    res.status(200).json(todos);
-
-    // fs.readFile("./todos.json", "utf-8", (err, data) => {
-    //     if (err) res.status(500).json({ error: 'Datei konnte nicht gelesen werden' });
-    //     let todos = JSON.parse(data);
-    //     res.status(200).json(todos);
-    // });
+    res.status(200).json(await getTodos());
 })
 
 // Definiert eine neue Route für den POST-Request auf den Pfad "/todos".
-server.post("/todos", (req, res) => {
-    console.log("ich bekomme einen post");
-    console.log(req.body);
-    let newTodo = req.body;
-
-    fs.readFile("./todos.json", "utf-8", (err, data) => {
-        let todos = JSON.parse(data);
-        todos.push(newTodo);
-
-        fs.writeFile("./todos.json", JSON.stringify(todos, null, 2), () => {
-            res.status(200).json({ success: 'Todo wurde abgespeichert' });
-        });
-    });
+server.post("/todos", async (req, res) => {
+    res.status(200).json(await postTodo(req.body));
 });
-
 
 // Definiert eine neue Route für den POST-Request".
 server.post("/register", async (req, res) => {

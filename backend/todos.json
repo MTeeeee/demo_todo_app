@@ -80,5 +80,17 @@
   {
     "userName": "hello",
     "userPassword": "world"
+  },
+  {
+    "user_id": 1,
+    "id": 1,
+    "description": "hide password",
+    "completed": false
+  },
+  {
+    "user_id": 1,
+    "id": 1,
+    "description": "hide password done",
+    "completed": false
   }
 ]
